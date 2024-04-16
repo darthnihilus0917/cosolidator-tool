@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon consolidator-tool.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "pkg consolidator-tool.js --target node16-win-x64 --output build/consolidator-tool.exe --include lib/** --include node_modules/readline/** --include node_modules/exceljs/** --assets .env"
+    "build": "pkg consolidator-tool.js --target node16-win-x64 --output build/consolidator-tool.exe --include lib/** --include node_modules/readline/** --include node_modules/exceljs/** --include node_modules/xlsx/** --assets .env"
   },
   "author": "",
   "license": "ISC",
@@ -14,6 +14,7 @@
     "dotenv": "^16.4.5",
     "exceljs": "^4.4.0",
     "nodemon": "^3.1.0",
-    "readline": "^1.3.0"
+    "readline": "^1.3.0",
+    "xlsx": "^0.18.5"
   }
 }
