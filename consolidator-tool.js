@@ -2,8 +2,8 @@ const readline = require("readline");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const { chains, processes, salesType } = require('./lib/options/options');
-const { loadTitle } = require('./lib/utils/utils');
+const { chains, processes, salesType, cutOffMonths } = require('./lib/options/options');
+const { loadTitle, cutOffFormat } = require('./lib/utils/utils');
 const { appLabels } = require('./lib/contants/contants');
 
 const { buildMetro, buildMerryMart } = require('./lib/processes/buildRawData');
@@ -29,6 +29,18 @@ function askQuestion(question, options) {
         }
     );
   });
+}
+
+function askCutOff(question) {
+    return new Promise((resolve, reject) => {
+        rl.question(question + ': ', (answer) => {
+            if (typeof answer === 'string' && answer.trim() !== '') {
+                resolve(answer.trim());
+            } else {
+                reject(new Error(`${appLabels.invalidCutOff}`));
+            }
+        });
+    });
 }
 
 async function main() {
@@ -59,6 +71,17 @@ async function main() {
 
         if (store === "ROBINSON" || store === "PUREGOLD" || store === "WESHOP") {
             actions = actions.filter((action) => action !== "BUILD RAW DATA");
+        }
+
+        let cutOff = "";
+        while(true) {
+            cutOff = await askCutOff('\nPlease provide a cut-off date');
+            if (cutOffFormat(cutOff) && cutOffMonths.includes(cutOff.split(" ")[0])) {
+                console.log(`\nYou entered:`, cutOff);
+                break;
+            } else {
+                console.log(`${appLabels.invalidCutOff}`);
+            }
         }
 
         let action = "";
@@ -121,24 +144,21 @@ async function main() {
 
             if (action === "GENERATE CHAIN OUTPUT DATA" && store !== "ROBINSON") {
 
-                // const cutOffDate = await askQuestion("Enter CUT-OFF Date (YYYY-MM-DD):", []);
-                // console.log("You entered:", cutOffDate);
-
                 switch(store) {
                     case "WESHOP":
-                        generateWeShop(`${store} - ${appLabels.chainMsg}`,store, action);
+                        generateWeShop(`${store} - ${appLabels.chainMsg}`,store, action, cutOff);
                         break;                    
                     case "WALTERMART":
-                        generateWalterMart(`${store} - ${appLabels.chainMsg}`, store, action);
+                        generateWalterMart(`${store} - ${appLabels.chainMsg}`, store, action, cutOff);
                         break;
                     case "PUREGOLD":
-                        generatePuregold(`${store} - ${appLabels.chainMsg}`, store, action);
+                        generatePuregold(`${store} - ${appLabels.chainMsg}`, store, action, cutOff);
                         break;                    
                     case "METRO":
-                        generateMetro(`${store} - ${appLabels.chainMsg}`, store, action);
+                        generateMetro(`${store} - ${appLabels.chainMsg}`, store, action, cutOff);
                         break;
                     case "MERRYMART":
-                        generateMerryMart(`${store} - ${appLabels.chainMsg}`, store, action);
+                        generateMerryMart(`${store} - ${appLabels.chainMsg}`, store, action, cutOff);
                         break
                     default:
                         console.log(`${appLabels.processNotAvailable} ${store}.`);
@@ -146,16 +166,13 @@ async function main() {
             }
 
             if (action === "GENERATE CHAIN OUTPUT DATA" && store === "ROBINSON") {
-
-                // const cutOffDate = await askQuestion("Enter CUT-OFF Date (YYYY-MM-DD):", []);
-                // console.log("You entered:", cutOffDate);
-
                 const salesTypeOptions = salesType;
-                const salesTypeOutput = await askQuestion("Select Sales Type:", salesTypeOptions);
+                const salesTypeOutput = await askQuestion("\nSelect Sales Type:", salesTypeOptions);
                 if (salesTypeOutput === "RETAIL" || salesTypeOutput === "E-COMM") {
                     console.log("\nYou selected:", salesTypeOutput);
-                    await generateRobinson(store, salesTypeOutput, action);
+                    await generateRobinson(store, salesTypeOutput, action, cutOff);
                     break;
+
                 } else if (salesType === "CANCEL") {
                     console.log("You selected:", salesType);
                     break;
@@ -170,6 +187,7 @@ async function main() {
     }
   } catch (err) {
     console.error(err.message);
+
   } finally {
     rl.close();
   }
