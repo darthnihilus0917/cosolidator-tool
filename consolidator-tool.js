@@ -152,7 +152,7 @@ async function main() {
                         generateWalterMart(`${store} - ${appLabels.chainMsg}`, store, action, cutOff);
                         break;
                     case "PUREGOLD":
-                        generatePuregold(`${store} - ${appLabels.chainMsg}`, store, action, cutOff);
+                        await generatePuregold(`${store} - ${appLabels.chainMsg}`, store, action, cutOff);
                         break;                    
                     case "METRO":
                         generateMetro(`${store} - ${appLabels.chainMsg}`, store, action, cutOff);
