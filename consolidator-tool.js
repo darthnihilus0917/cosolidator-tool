@@ -146,13 +146,13 @@ async function main() {
 
                 switch(store) {
                     case "WESHOP":
-                        generateWeShop(`${store} - ${appLabels.chainMsg}`,store, action, cutOff);
+                        await generateWeShop(store, action, cutOff);
                         break;                    
                     case "WALTERMART":
                         generateWalterMart(`${store} - ${appLabels.chainMsg}`, store, action, cutOff);
                         break;
                     case "PUREGOLD":
-                        await generatePuregold(`${store} - ${appLabels.chainMsg}`, store, action, cutOff);
+                        await generatePuregold(store, action, cutOff);
                         break;                    
                     case "METRO":
                         generateMetro(`${store} - ${appLabels.chainMsg}`, store, action, cutOff);
