@@ -124,7 +124,7 @@ async function main() {
             if (action === "BUILD RAW DATA") {                
                 switch(store) {
                     case "METRO":
-                        buildMetro(`${store} - ${appLabels.rawDataMsg}`, store, action);
+                        await buildMetro(store, action);
                         break;
                     case "MERRYMART":
                         buildMerryMart(`${store} - ${appLabels.rawDataMsg}`, store, action);
@@ -155,7 +155,7 @@ async function main() {
                         await generatePuregold(store, action, cutOff);
                         break;                    
                     case "METRO":
-                        generateMetro(`${store} - ${appLabels.chainMsg}`, store, action, cutOff);
+                        await generateMetro(store, action, cutOff);
                         break;
                     case "MERRYMART":
                         generateMerryMart(`${store} - ${appLabels.chainMsg}`, store, action, cutOff);
