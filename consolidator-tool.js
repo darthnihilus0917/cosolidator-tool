@@ -132,14 +132,14 @@ async function main() {
                     default:
                         console.log(`${appLabels.processNotAvailable} ${store}.`);
                 }
-                const continueProcessing = await askQuestion(`\n${appLabels.confirmProcessing}`, ['Yes', 'No']);
-                if (continueProcessing === 'YES') {
-                    break;
-                } else {
-                    console.log(appLabels.closingApp);
-                    rl.close();
-                    return;
-                }
+                // const continueProcessing = await askQuestion(`\n${appLabels.confirmProcessing}`, ['Yes', 'No']);
+                // if (continueProcessing === 'YES') {
+                //     break;
+                // } else {
+                //     console.log(appLabels.closingApp);
+                //     rl.close();
+                //     return;
+                // }
             }
 
             if (action === "GENERATE CHAIN OUTPUT DATA" && store !== "ROBINSON") {
