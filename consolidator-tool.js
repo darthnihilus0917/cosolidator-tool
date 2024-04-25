@@ -9,6 +9,7 @@ const { appLabels } = require('./lib/contants/contants');
 const { buildMetro, buildMerryMart } = require('./lib/processes/buildRawData');
 const { consolidateRobinson, consolidateMetro, consolidatePuregold } = require('./lib/processes/consolidate');
 const { generateRobinson, generateMerryMart, generateMetro, generatePuregold, generateWalterMart, generateWeShop } = require("./lib/processes/generateChainOutput");
+const { convertPdfMerryMart } = require("./lib/processes/convertPdf");
 
 const rl = readline.createInterface({
   input: process.stdin,
@@ -73,6 +74,11 @@ async function main() {
             actions = actions.filter((action) => action !== "BUILD RAW DATA");
         }
 
+        if (store === "ROBINSON" || store === "PUREGOLD" || store === "WESHOP" 
+            || store === "METRO" || store === "WALTERMART") {
+            actions = actions.filter((action) => action !== "CONVERT PDF TO EXCEL");
+        }
+
         let cutOff = "";
         while(true) {
             cutOff = await askCutOff('\nPlease provide a cut-off date');
@@ -121,13 +127,23 @@ async function main() {
                 break;
             }
 
-            if (action === "BUILD RAW DATA") {                
+            if (action === "CONVERT PDF TO EXCEL") {
+                switch(store) {
+                    case "MERRYMART":
+                        await convertPdfMerryMart(store, action);
+                        break;
+                    default:
+                        console.log(`${appLabels.processNotAvailable} ${store}.`);
+                }
+            }
+
+            if (action === "BUILD RAW DATA") {
                 switch(store) {
                     case "METRO":
                         await buildMetro(store, action);
                         break;
                     case "MERRYMART":
-                        buildMerryMart(`${store} - ${appLabels.rawDataMsg}`, store, action);
+                        await buildMerryMart(store, action);
                         break;
                     default:
                         console.log(`${appLabels.processNotAvailable} ${store}.`);
@@ -179,10 +195,10 @@ async function main() {
                 }                
             }
 
-            if (action === "CLEAR CHAIN OUTPUT DATA") {
-                console.log(`${store}: Output Data Sheet Cleared!`);
-                continue;
-            }
+            // if (action === "CLEAR CHAIN OUTPUT DATA") {
+            //     console.log(`${store}: Output Data Sheet Cleared!`);
+            //     continue;
+            // }
       }
     }
   } catch (err) {
