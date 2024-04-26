@@ -82,12 +82,14 @@ async function main() {
         let cutOff = "";
         while(true) {
             cutOff = await askCutOff('\nPlease provide a cut-off date');
-            if (cutOffFormat(cutOff) && cutOffMonths.includes(cutOff.split(" ")[0])) {
-                console.log(`\nYou entered:`, cutOff);
-                break;
-            } else {
-                console.log(`${appLabels.invalidCutOff}`);
-            }
+            console.log(`\nYou entered:`, cutOff);
+            break;            
+            // if (cutOffFormat(cutOff) && cutOffMonths.includes(cutOff.split(" ")[0])) {
+            //     console.log(`\nYou entered:`, cutOff);
+            //     break;
+            // } else {
+            //     console.log(`${appLabels.invalidCutOff}`);
+            // }
         }
 
         let action = "";
