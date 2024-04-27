@@ -8,7 +8,8 @@ const { appLabels } = require('./lib/contants/contants');
 
 const { buildMetro, buildMerryMart } = require('./lib/processes/buildRawData');
 const { consolidateRobinson, consolidateMetro, consolidatePuregold } = require('./lib/processes/consolidate');
-const { generateRobinson, generateMerryMart, generateMetro, generatePuregold, generateWalterMart, generateWeShop } = require("./lib/processes/generateChainOutput");
+const { generateRobinson, generateMerryMart, generateMetro, 
+    generatePuregold, generateWalterMart, generateWeShop } = require("./lib/processes/generateChainOutput");
 const { convertPdfMerryMart } = require("./lib/processes/convertPdf");
 
 const rl = readline.createInterface({
@@ -176,7 +177,7 @@ async function main() {
                         await generateMetro(store, action, cutOff);
                         break;
                     case "MERRYMART":
-                        generateMerryMart(`${store} - ${appLabels.chainMsg}`, store, action, cutOff);
+                        await generateMerryMart(store, action, cutOff);
                         break
                     default:
                         console.log(`${appLabels.processNotAvailable} ${store}.`);
