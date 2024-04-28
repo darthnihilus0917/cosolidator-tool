@@ -71,7 +71,7 @@ async function main() {
 
         let actions = processes;
 
-        if (store === "ROBINSON" || store === "PUREGOLD" || store === "WESHOP") {
+        if (store === "ROBINSON" || store === "PUREGOLD" || store === "WESHOP" || store === "WALTERMART") {
             actions = actions.filter((action) => action !== "BUILD RAW DATA");
         }
 
@@ -168,7 +168,7 @@ async function main() {
                         await generateWeShop(store, action, cutOff);
                         break;                    
                     case "WALTERMART":
-                        generateWalterMart(`${store} - ${appLabels.chainMsg}`, store, action, cutOff);
+                        await generateWalterMart(store, action, cutOff);
                         break;
                     case "PUREGOLD":
                         await generatePuregold(store, action, cutOff);
