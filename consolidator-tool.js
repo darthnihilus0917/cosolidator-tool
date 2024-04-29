@@ -7,7 +7,9 @@ const { loadTitle, cutOffFormat } = require('./lib/utils/utils');
 const { appLabels } = require('./lib/contants/contants');
 
 const { buildMetro, buildMerryMart } = require('./lib/processes/buildRawData');
-const { consolidateRobinson, consolidateMetro, consolidatePuregold } = require('./lib/processes/consolidate');
+const { consolidateRobinson, consolidateMetro, consolidatePuregold,
+    consolidateWeShop, consolidateMerrymart, consolidateWaltermart} = require('./lib/processes/consolidate');
+
 const { generateRobinson, generateMerryMart, generateMetro, 
     generatePuregold, generateWalterMart, generateWeShop } = require("./lib/processes/generateChainOutput");
 const { convertPdfMerryMart } = require("./lib/processes/convertPdf");
@@ -116,18 +118,26 @@ async function main() {
             if (action === "CONSOLIDATE") {
                 switch(store) {
                     case "ROBINSON":
-                        consolidateRobinson(`${store} - ${appLabels.consolidationMsg}`, store, action);
-                        break;
+                        await consolidateRobinson(store, action, cutOff, salesType);
+                        break;                    
                     case "PUREGOLD":
-                        consolidatePuregold(`${store} - ${appLabels.consolidationMsg}`, store, action);
+                        await consolidatePuregold(store, action, cutOff);
                         break;
                     case "METRO":
-                        consolidateMetro(`${store} - ${appLabels.consolidationMsg}`, store, action);
+                        await consolidateMetro(store, action, cutOff);
+                        break;
+                    case "WESHOP":
+                        await consolidateWeShop(store, action, cutOff);
+                        break;
+                    case "MERRYMART":
+                        await consolidateMerrymart(store, action, cutOff);
+                        break;
+                    case "WALTERMART":
+                        await consolidateWaltermart(store, action, cutOff);
                         break;                        
                     default:
                         console.log(`${appLabels.processNotAvailable} ${store}.`);
-                }                
-                break;
+                }
             }
 
             if (action === "CONVERT PDF TO EXCEL") {
@@ -190,7 +200,7 @@ async function main() {
                 if (salesTypeOutput === "RETAIL" || salesTypeOutput === "E-COMM") {
                     console.log("\nYou selected:", salesTypeOutput);
                     await generateRobinson(store, salesTypeOutput, action, cutOff);
-                    break;
+                    // break;
 
                 } else if (salesType === "CANCEL") {
                     console.log("You selected:", salesType);
