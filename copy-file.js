@@ -9,6 +9,7 @@ const folderList = [
     'output',
     'raw_data',
     'templates',
+    'monitoring'
 ]
 
 const files = [
