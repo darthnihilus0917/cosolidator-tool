@@ -116,6 +116,7 @@ async function main() {
             }
 
             if (action === "CONSOLIDATE") {
+                console.log(`Consolidating ${store} data. Please wait...`);
                 switch(store) {
                     case "ROBINSON":
                         await consolidateRobinson(store, action, cutOff, salesType);
