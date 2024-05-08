@@ -162,14 +162,6 @@ async function main() {
                     default:
                         console.log(`${appLabels.processNotAvailable} ${store}.`);
                 }
-                // const continueProcessing = await askQuestion(`\n${appLabels.confirmProcessing}`, ['Yes', 'No']);
-                // if (continueProcessing === 'YES') {
-                //     break;
-                // } else {
-                //     console.log(appLabels.closingApp);
-                //     rl.close();
-                //     return;
-                // }
             }
 
             if (action === "GENERATE CHAIN OUTPUT DATA" && store !== "ROBINSON") {
@@ -223,11 +215,6 @@ async function main() {
                     break;
                 }                
             }
-
-            // if (action === "CLEAR CHAIN OUTPUT DATA") {
-            //     console.log(`${store}: Output Data Sheet Cleared!`);
-            //     continue;
-            // }
       }
     }
   } catch (err) {
