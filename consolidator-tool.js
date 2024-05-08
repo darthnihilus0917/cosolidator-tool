@@ -82,18 +82,18 @@ async function main() {
             actions = actions.filter((action) => action !== "CONVERT PDF TO EXCEL");
         }
 
-        let cutOff = "";
-        while(true) {
-            cutOff = await askCutOff('\nPlease provide a cut-off date');
-            console.log(`\nYou entered:`, cutOff);
-            break;            
-            // if (cutOffFormat(cutOff) && cutOffMonths.includes(cutOff.split(" ")[0])) {
-            //     console.log(`\nYou entered:`, cutOff);
-            //     break;
-            // } else {
-            //     console.log(`${appLabels.invalidCutOff}`);
-            // }
-        }
+        // let cutOff = "";
+        // while(true) {
+        //     cutOff = await askCutOff('\nPlease provide a cut-off date');
+        //     console.log(`\nYou entered:`, cutOff);
+        //     break;            
+        //     // if (cutOffFormat(cutOff) && cutOffMonths.includes(cutOff.split(" ")[0])) {
+        //     //     console.log(`\nYou entered:`, cutOff);
+        //     //     break;
+        //     // } else {
+        //     //     console.log(`${appLabels.invalidCutOff}`);
+        //     // }
+        // }
 
         let action = "";
         while (action !== "EXIT") {
@@ -162,17 +162,16 @@ async function main() {
                     default:
                         console.log(`${appLabels.processNotAvailable} ${store}.`);
                 }
-                // const continueProcessing = await askQuestion(`\n${appLabels.confirmProcessing}`, ['Yes', 'No']);
-                // if (continueProcessing === 'YES') {
-                //     break;
-                // } else {
-                //     console.log(appLabels.closingApp);
-                //     rl.close();
-                //     return;
-                // }
             }
 
             if (action === "GENERATE CHAIN OUTPUT DATA" && store !== "ROBINSON") {
+
+                let cutOff = "";
+                while(true) {
+                    cutOff = await askCutOff('\nPlease provide a cut-off date');
+                    console.log(`\nYou entered:`, cutOff);
+                    break;
+                }
 
                 switch(store) {
                     case "WESHOP":
@@ -196,6 +195,14 @@ async function main() {
             }
 
             if (action === "GENERATE CHAIN OUTPUT DATA" && store === "ROBINSON") {
+
+                let cutOff = "";
+                while(true) {
+                    cutOff = await askCutOff('\nPlease provide a cut-off date');
+                    console.log(`\nYou entered:`, cutOff);
+                    break;
+                }
+
                 const salesTypeOptions = salesType;
                 const salesTypeOutput = await askQuestion("\nSelect Sales Type:", salesTypeOptions);
                 if (salesTypeOutput === "RETAIL" || salesTypeOutput === "E-COMM") {
@@ -208,11 +215,6 @@ async function main() {
                     break;
                 }                
             }
-
-            // if (action === "CLEAR CHAIN OUTPUT DATA") {
-            //     console.log(`${store}: Output Data Sheet Cleared!`);
-            //     continue;
-            // }
       }
     }
   } catch (err) {
