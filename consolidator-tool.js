@@ -82,18 +82,18 @@ async function main() {
             actions = actions.filter((action) => action !== "CONVERT PDF TO EXCEL");
         }
 
-        let cutOff = "";
-        while(true) {
-            cutOff = await askCutOff('\nPlease provide a cut-off date');
-            console.log(`\nYou entered:`, cutOff);
-            break;            
-            // if (cutOffFormat(cutOff) && cutOffMonths.includes(cutOff.split(" ")[0])) {
-            //     console.log(`\nYou entered:`, cutOff);
-            //     break;
-            // } else {
-            //     console.log(`${appLabels.invalidCutOff}`);
-            // }
-        }
+        // let cutOff = "";
+        // while(true) {
+        //     cutOff = await askCutOff('\nPlease provide a cut-off date');
+        //     console.log(`\nYou entered:`, cutOff);
+        //     break;            
+        //     // if (cutOffFormat(cutOff) && cutOffMonths.includes(cutOff.split(" ")[0])) {
+        //     //     console.log(`\nYou entered:`, cutOff);
+        //     //     break;
+        //     // } else {
+        //     //     console.log(`${appLabels.invalidCutOff}`);
+        //     // }
+        // }
 
         let action = "";
         while (action !== "EXIT") {
@@ -174,6 +174,13 @@ async function main() {
 
             if (action === "GENERATE CHAIN OUTPUT DATA" && store !== "ROBINSON") {
 
+                let cutOff = "";
+                while(true) {
+                    cutOff = await askCutOff('\nPlease provide a cut-off date');
+                    console.log(`\nYou entered:`, cutOff);
+                    break;
+                }
+
                 switch(store) {
                     case "WESHOP":
                         await generateWeShop(store, action, cutOff);
@@ -196,6 +203,14 @@ async function main() {
             }
 
             if (action === "GENERATE CHAIN OUTPUT DATA" && store === "ROBINSON") {
+
+                let cutOff = "";
+                while(true) {
+                    cutOff = await askCutOff('\nPlease provide a cut-off date');
+                    console.log(`\nYou entered:`, cutOff);
+                    break;
+                }
+
                 const salesTypeOptions = salesType;
                 const salesTypeOutput = await askQuestion("\nSelect Sales Type:", salesTypeOptions);
                 if (salesTypeOutput === "RETAIL" || salesTypeOutput === "E-COMM") {
