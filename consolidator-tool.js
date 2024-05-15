@@ -119,22 +119,22 @@ async function main() {
                 console.log(`Consolidating ${store} data. Please wait...`);
                 switch(store) {
                     case "ROBINSON":
-                        await consolidateRobinson(store, action, cutOff, salesType);
+                        await consolidateRobinson(store, action, salesType);
                         break;                    
                     case "PUREGOLD":
-                        await consolidatePuregold(store, action, cutOff);
+                        await consolidatePuregold(store, action);
                         break;
                     case "METRO":
-                        await consolidateMetro(store, action, cutOff);
+                        await consolidateMetro(store, action);
                         break;
                     case "WESHOP":
-                        await consolidateWeShop(store, action, cutOff);
+                        await consolidateWeShop(store, action);
                         break;
                     case "MERRYMART":
-                        await consolidateMerrymart(store, action, cutOff);
+                        await consolidateMerrymart(store, action);
                         break;
                     case "WALTERMART":
-                        await consolidateWaltermart(store, action, cutOff);
+                        await consolidateWaltermart(store, action);
                         break;                        
                     default:
                         console.log(`${appLabels.processNotAvailable} ${store}.`);
